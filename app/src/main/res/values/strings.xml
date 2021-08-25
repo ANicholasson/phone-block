@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">phoneblock</string>
+    <string name="app_name">Phone Block</string>
     <string name="status_activated">Activated</string>
     <string name="status_inactive">Inactive!</string>
     <string name="tap_to_activate">Tap to Activate</string>

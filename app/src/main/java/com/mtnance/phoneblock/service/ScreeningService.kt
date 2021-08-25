@@ -35,11 +35,11 @@ class ScreeningService : CallScreeningService() {
             }
 
             if (validLandCode.isNullOrEmpty()) {
-                Timber.tag("📞🔫🤖").i("Did not screen known caller: ($formattedPhoneNumber)")
-            } else {
                 respondToCall(details, buildResponse())
                 Timber.tag("📞🔫🤖")
                     .w("Automatically declined unknown caller: $formattedPhoneNumber")
+            } else {
+                Timber.tag("📞🔫🤖").i("Did not screen known caller: ($formattedPhoneNumber)")
             }
         }
     }

@@ -9,5 +9,4 @@
         android:id="@+id/settings"
         android:icon="@drawable/ic_baseline_settings"
         android:title="Settings"/>
-
 </menu>
