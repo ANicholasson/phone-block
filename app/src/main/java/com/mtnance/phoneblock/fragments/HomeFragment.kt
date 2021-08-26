@@ -5,12 +5,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
+import android.widget.Toast
 import com.mtnance.phoneblock.R
-
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+import kotlinx.android.synthetic.main.fragment_home.view.*
 
 /**
  * A simple [Fragment] subclass.
@@ -18,43 +17,71 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class HomeFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private val rotateOpen: Animation by lazy { AnimationUtils.loadAnimation(activity, R.anim.rotate_open_anim) }
+    private val rotateClose: Animation by lazy { AnimationUtils.loadAnimation(activity, R.anim.rotate_close_anim) }
+    private val fromBottom: Animation by lazy { AnimationUtils.loadAnimation(activity, R.anim.from_bottom_anim) }
+    private val toBottom: Animation by lazy { AnimationUtils.loadAnimation(activity, R.anim.to_bottom_anim) }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private var clicked = false
+    private lateinit var fragmentView: View
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false)
+        fragmentView = inflater.inflate(R.layout.fragment_home, container, false)
+
+        fragmentView.new_item_menu_btn.setOnClickListener {
+            onAddButtonClicked()
+        }
+        fragmentView.new_number_btn.setOnClickListener {
+            Toast.makeText(activity, "NOT YET IMPLEMENTED", Toast.LENGTH_SHORT).show()
+        }
+        fragmentView.new_land_code_btn.setOnClickListener {
+            Toast.makeText(activity, "NOT YET IMPLEMENTED", Toast.LENGTH_SHORT).show()
+        }
+
+        // Return the fragment view/layout
+        return fragmentView;
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment HomeFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            HomeFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    private fun onAddButtonClicked() {
+        setVisibility(clicked)
+        setAnimation(clicked)
+        setClickable(clicked)
+        clicked = !clicked
+    }
+
+    private fun setVisibility(clicked: Boolean) {
+        if (!clicked) {
+            fragmentView.new_number_btn.visibility = View.VISIBLE
+            fragmentView.new_land_code_btn.visibility = View.VISIBLE
+        } else {
+            fragmentView.new_number_btn.visibility = View.INVISIBLE
+            fragmentView.new_land_code_btn.visibility = View.INVISIBLE
+        }
+    }
+
+    private fun setAnimation(clicked: Boolean) {
+        if (!clicked) {
+            fragmentView.new_number_btn.startAnimation(fromBottom)
+            fragmentView.new_land_code_btn.startAnimation(fromBottom)
+            fragmentView.new_item_menu_btn.startAnimation(rotateOpen)
+        } else {
+            fragmentView.new_number_btn.startAnimation(toBottom)
+            fragmentView.new_land_code_btn.startAnimation(toBottom)
+            fragmentView.new_item_menu_btn.startAnimation(rotateClose)
+        }
+    }
+
+    private fun setClickable(clicked: Boolean) {
+        if (!clicked) {
+            fragmentView.new_number_btn.isClickable = true
+            fragmentView.new_land_code_btn.isClickable = true
+        } else {
+            fragmentView.new_number_btn.isClickable = false
+            fragmentView.new_land_code_btn.isClickable = false
+        }
     }
 }
