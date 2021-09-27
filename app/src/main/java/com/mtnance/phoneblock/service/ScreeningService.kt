@@ -32,8 +32,8 @@ class ScreeningService : CallScreeningService() {
 
             // Check if the phone number is stored in contacts
             val caller = getContactName(phoneNumber)
-            if (caller == null)
-                respondToCall(details, buildResponse())
+            if (caller != null)
+                return;
 
             // TODO If caller is not in contact list, check against whitelist/blacklist
 
