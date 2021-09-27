@@ -1,6 +1,8 @@
 package com.mtnance.phoneblock.service
 
+import android.net.Uri
 import android.os.Build
+import android.provider.ContactsContract
 import android.telecom.Call
 import android.telecom.CallScreeningService
 import android.telephony.PhoneNumberUtils
@@ -27,6 +29,14 @@ class ScreeningService : CallScreeningService() {
                 phoneNumber,
                 countryCode
             )
+
+            // Check if the phone number is stored in contacts
+            val caller = getContactName(phoneNumber)
+            if (caller == null)
+                respondToCall(details, buildResponse())
+
+            // TODO If caller is not in contact list, check against whitelist/blacklist
+
             var validLandCode = ""
             for (landCode in Constants.WHITELISTED_COUNTRY_CODES) {
                 if (phoneNumber.startsWith(landCode)) {
@@ -34,7 +44,7 @@ class ScreeningService : CallScreeningService() {
                 }
             }
 
-            if (validLandCode.isNullOrEmpty()) {
+            if (validLandCode.isEmpty()) {
                 respondToCall(details, buildResponse())
                 Timber.tag("📞🔫🤖")
                     .w("Automatically declined unknown caller: $formattedPhoneNumber")
@@ -51,5 +61,24 @@ class ScreeningService : CallScreeningService() {
             .setSkipNotification(prefs.skipCallNotification)
             .setSkipCallLog(prefs.skipCallLog)
             .build()
+    }
+
+    /**
+     * Method for getting the name of an existing contact matching given phone number
+     */
+    private fun getContactName(phoneNumber: String): String? {
+        val uri = Uri.withAppendedPath(
+            ContactsContract.PhoneLookup.CONTENT_FILTER_URI,
+            Uri.encode(phoneNumber)
+        )
+
+        val projection = arrayOf(ContactsContract.PhoneLookup.DISPLAY_NAME)
+        val cursor = contentResolver.query(uri, projection, null, null, null)
+        return cursor?.use {
+            when (cursor.moveToFirst()) {
+                true -> cursor.getString(0)
+                else -> null
+            }
+        }
     }
 }
