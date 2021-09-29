@@ -13,13 +13,17 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        // Building the BottomAppBar (with floating action button (cradle))
+        bottom_navigation_view.background = null
+        bottom_navigation_view.menu.getItem(1).isEnabled = false;
+
         // Initialize fragments (part of the "tab-bar" navigation)
         val homeFragment = HomeFragment()
         val settingsFragment = SettingsFragment()
 
         makeCurrentFragment(homeFragment)
 
-        bottom_navigation.setOnNavigationItemSelectedListener {
+        bottom_navigation_view.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.home -> makeCurrentFragment(homeFragment)
                 R.id.settings -> makeCurrentFragment(settingsFragment)
@@ -30,7 +34,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun makeCurrentFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction().apply {
-            replace(R.id.fl_wrapper, fragment)
+            replace(R.id.container, fragment)
             commit()
         }
     }

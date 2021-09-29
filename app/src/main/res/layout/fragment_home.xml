@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.HomeFragment">
 
     <RelativeLayout
@@ -17,45 +16,5 @@
             android:text="To be continued..." />
 
     </RelativeLayout>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/new_land_code_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:tint="@color/white"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toTopOf="@id/new_number_btn"
-        app:layout_constraintEnd_toEndOf="@id/new_number_btn"
-        android:src="@drawable/ic_baseline_add" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/new_number_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:visibility="invisible"
-        android:tint="@color/white"
-        app:layout_constraintBottom_toTopOf="@id/new_item_menu_btn"
-        app:layout_constraintEnd_toEndOf="@id/new_item_menu_btn"
-        android:src="@drawable/ic_baseline_add" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/new_item_menu_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="24dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:backgroundTint="?colorPrimary"
-        android:tint="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:src="@drawable/ic_baseline_add" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
